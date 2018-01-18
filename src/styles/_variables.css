@@ -1,0 +1,18 @@
+/* Breakpoints
+	iphone 4 captive portal is less than 400px height; 320px width. */
+:root {
+	--bp-small: 48em; /* 768px */
+	--bp-medium: 64em; /* 1024px */
+	--bp-large: 85.375em; /* 1366px */
+	--bp-xlarge: 120em; /* 1920px */
+	--bp-xxlarge: 160em; /* 2560px */
+	/* Media Queries */
+	/*@custom-media --mq-iphone4: (max-width: 320px) and (max-height: 372px);
+	@custom-media --mq-small: (min-width: 48em) and (min-height: 680px);
+	@custom-media --mq-small-width: (min-width: var(bp-small));
+	@custom-media --mq-medium: (min-width: var(bp-medium));
+	@custom-media --mq-large: (min-width: var(bp-large));
+	@custom-media --mq-xlarge: (min-width: var(bp-xlarge));
+	@custom-media --mq-xxlarge: (min-width: var(bp-xxlarge));
+	@custom-media --mq-retina: (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi);*/
+}

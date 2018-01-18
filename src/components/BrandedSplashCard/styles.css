@@ -1,0 +1,125 @@
+@import '../../styles/_variables.css';
+
+/*
+ * Introduction screen layout that fits within a card.
+ * Displays a logo within an img element. 
+ */
+ .brandedSplash {
+	height: 100%;
+	width: 100%;
+	z-index: 100;
+	background: #000;
+	animation: downScaleIn 0.5s;
+	pointer-events: none;
+}
+
+.dark {
+	color: #4b4b4b !important;
+}
+
+.container {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.content {
+	user-select: none;
+	-webkit-user-drag: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+	z-index: 100;
+	color: #fff;
+	animation: fadeIn 0.5s;
+}
+
+.hero >.logo {
+	display: block;
+	text-align: center;
+	border: none;
+	margin: 0 auto 20px auto;
+	animation: fadeIn 0.5s;
+}
+
+.hero >.logo.custom {
+	max-width: 120px;
+	height: auto;
+}
+
+.hero >.intro {
+	text-align: center;
+	font-size: 18px;
+	font-weight: 400;
+	margin: 10px 30px 0 30px;
+	animation: fadeIn 0.5s;
+	
+	/*@custom-media(--mq-small) {
+		font-size: 30px;
+	}*/
+}
+
+.action {
+	font-weight: 400;
+	position: absolute;
+	top: 0;
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 13px;
+	/*@custom-media(--mq-small)) {
+		font-size: 18px;
+	}*/
+	color: #fff;
+	animation: fadeIn 0.5s;
+}
+
+.vanity {
+	font-size: 13px;
+	font-weight: 400;
+	margin: 0;
+	text-align: center;
+}
+
+.termsTitle {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	display: block;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 400;
+	animation: fadeIns .5s;
+
+	/*@custom-media(--mq-medium) {
+		font-size: 18px;
+	}*/
+}
+
+.termsTitle >.button {
+	border: none;
+	outline: none;
+	background: none;
+	text-decoration: underline;
+	cursor: pointer;
+	color: #fff;
+	font-size: inherit;
+	pointer-events: all;
+}
+
+.background {
+	user-select: none;
+	-webkit-user-drag: none;
+	position: absolute;
+	top: 0;
+	right:0;
+	height: 100%;
+	width: 100%;
+	z-index: 50;
+	animation: fadeIn 1s;
+}

@@ -1,0 +1,52 @@
+/*
+ * The container for card items. Card-deck 
+ */
+ .cardDeck {
+	position: relative;
+	width: 300px;
+	height: 100%;
+	margin: 3em auto;
+	-webkit-perspective: 1000px;
+	perspective: 1000px;
+	z-index: 300;
+	
+/*	@media (min-height: 680px) and (max-height: var(bp-small)) and (max-width: 680px) {
+		margin-top: 3em; 
+	}
+
+	@custom-media(--mq-iphone4) {
+		margin-top: 1.5em;
+		margin-bottom: 1em;
+		width: (var(--card-width) * 0.8);
+	} */
+}
+
+.card:nth-child(-n+3) {
+	/* your style */
+	display: block !important;
+}
+
+.navButtonContainer {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: 10%;
+
+	/* vertically center nav buttons that are at the side */
+	/*@media (max-height: 680px) and (min-width: 640px) {
+		top: 50%;
+		transform: translateY(-50%);
+		display: table;
+
+		>.nav-button{
+			margin: 0 180px !important;
+			display: table-cell;
+		}
+	}
+
+	// hide on vertically small mobile screens
+	@media(max-height: 520px) and (max-width: 680px) {
+		display: none
+	}*/
+
+}

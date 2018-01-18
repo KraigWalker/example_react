@@ -1,0 +1,61 @@
+.connect > .container {
+	display: block;
+}
+
+.container svg {
+	-webkit-transform:translate3d(0,0,0);
+	-webkit-transform-style: preserve-3d;
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	-webkit-backface-visibility: hidden;
+	-webkit-animation: rotating;
+	-webkit-transform-origin: 50px 50px;
+	transform-origin: 50px 50px;
+	transform-box: fill-box;
+	-webkit-transform-box: fill-box;
+}
+
+.container svg g, .container svg g > path {
+	-webkit-transform:translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+@-webkit-keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotateY(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotateY(360deg);
+	}
+}
+
+@keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotateY(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotateY(360deg);
+	}
+}
+
+.rotate {
+	-webkit-transform-origin: 50px 50px;
+	transform-origin: 50px 50px;
+	-webkit-animation-name: rotating;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-fill-mode: forwards;
+	animation-name: rotating;
+	animation-duration: 1.3s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}

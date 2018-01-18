@@ -1,0 +1,29 @@
+.card {
+	--card-height: 366px;	/* base height of cards in the deck. Set on the .card class */
+	--card-width: 300px;	/* base width of cards. Set on the .card-deck container class. */
+	display: none;
+	transform-origin: 0 0;
+	touch-action: none;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	overflow: hidden;
+	position: absolute;
+	/*box-shadow: 0 3px 3px 0 rgba(0,0,0,0.15);*/
+	display: block;
+	width: 100%;
+	height: 366px;
+	border-radius: 10px;
+	border: 1px;
+	cursor: move;
+	z-index: 300;
+	animation: fadeIn 0.3s;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+/*@custom-media(--mq-small) {
+	height:(var(--card-height) * 1.5);
+}
+@custom-media(--mq-iphone4) {
+	height: (var(card-height) * 0.8);
+}*/

@@ -1,0 +1,89 @@
+.header {
+	width: 100%;
+	min-height: 65px;
+	flex-grow: 0;
+	vertical-align: middle;
+	background: #fff;
+	z-index: 2;
+	border-bottom: 1px solid rgba(153,153,153,.4);
+	text-align: center;
+
+	/*@media #{$mq-small-width} {
+		top: 65px;
+	}*/
+
+}
+
+.wrapper {
+	height: 100%;
+	line-height: 65px;
+	text-align: right;
+}
+
+.closeButton {
+	display: inline-block;
+	text-transform: uppercase;
+	margin-right: 30px;
+	font-size: 16px;
+	background: #fff;
+	border: #2c2c2c 1px solid;
+	border-radius: 500px;
+	line-height: 1.6;
+	white-space: nowrap;
+	outline: none;
+	padding: 0.5em 1.5em;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.closeButton:hover {
+	background: #2c2c2c;
+	color: #fff;
+}
+
+li::marker { 
+	width: 30px;
+	text-align: right;
+	margin-right: 10px;
+	display: inline-block;
+	}
+
+.contentWrapper {
+	overflow-y: scroll;
+	background: #fff;
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
+	max-height: none;
+}
+	
+.contentWrapper > .content {
+	overflow-y: hidden;
+	height:100%;
+	max-width: 60rem;
+	max-height: none;
+	font-size: 1.1em;
+	line-height: 1.6;
+	margin: 0 auto;
+	padding: 1em;
+	background: #fff;
+}
+
+.contentWrapper > .content > .main {
+	max-width: 900px;
+	margin: 0 auto;
+	display: block;
+}
+
+.contentWrapper > .content > .main .h1 {
+	font-size: 1.65em;
+}
+
+
+.ReactModalPortal {
+	z-index: 6000;
+}
+
+.termsContainer {
+	z-index: 1000;
+	position: relative
+}

@@ -1,0 +1,324 @@
+@import './_variables.css';
+
+:root {
+	--card-height: 366px;	/* base height of cards in the deck. Set on the .card class */
+	--card-width: 300px;	/* base width of cards. Set on the .card-deck container class. */
+	/*@custom-media --mq-iphone4: (max-width: 320px) and (max-height: 372px);
+@custom-media --mq-small: (min-width: 48em) and (min-height: 680px);
+@custom-media --mq-small-width: (min-width: var(bp-small));
+@custom-media --mq-medium: (min-width: var(bp-medium));
+@custom-media --mq-large: (min-width: var(bp-large));
+@custom-media --mq-xlarge: (min-width: var(bp-xlarge));
+@custom-media --mq-xxlarge: (min-width: var(bp-xxlarge));
+@custom-media --mq-retina: (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi);*/
+}
+
+/*
+ * Fix for Windows Phone and IE10 Media query bug. 
+ */
+ @-ms-viewport       { width: device-width; }
+ @-o-viewport        { width: device-width; }
+ @viewport           { width: device-width; }
+ 
+* {
+	font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+}
+
+/*
+ * A key consideration with the styling of these initial
+ * base elements is preventing the captive portal bowser from
+ * doing what it wants. On iOS this can be elastic overscrolling
+ * effects. Most of the time we just want to prevent the window from scrolling...
+ */
+html {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    margin: 0;
+    overflow: hidden;
+    position: sticky;	/* revisit */
+	top: 0; right: 0; bottom: 0; left: 0;	/* KW: Do we actually require this? */
+    width: 100%;
+	height: 100%;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top:0; bottom: 0; left: 0; right: 0;
+	background: #EFEFEF;
+	overflow: hidden;
+}
+
+.connect > .container {
+	display: block;
+
+	svg {
+		-webkit-transform:translate3d(0,0,0);
+		-webkit-transform-style: preserve-3d;
+		width: 100px;
+		height: 100px;
+		display: inline-block;
+		-webkit-backface-visibility: hidden;
+		-webkit-animation: rotating;
+		-webkit-transform-origin: 50px 50px;
+		transform-origin: 50px 50px;
+		transform-box: fill-box;
+		-webkit-transform-box: fill-box;
+
+		g, g > path {
+			-webkit-transform:translate3d(0,0,0);
+			transform: translate3d(0,0,0);
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+		}
+	}
+}
+
+@-webkit-keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotateY(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotateY(360deg);
+	}
+}
+
+@keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotateY(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotateY(360deg);
+	}
+}
+
+.rotate {
+	-webkit-transform-origin: 50px 50px;
+	transform-origin: 50px 50px;
+	-webkit-animation-name: rotating;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-fill-mode: forwards;
+	animation-name: rotating;
+	animation-duration: 1.3s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+/*
+ * #app is our main container where the actual React App will scaffold itself
+ * into. Avoid stying non-content element tags (e.g div, span) directly
+ * as React will insert empty container divs and spans to perform
+ * it's VirtualDOM -> DOM manipulation.
+ */
+#app {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0; bottom: 0;
+}
+
+@custom-media(--mq-small) {
+	top: 65px;
+}
+
+.error-dialog {
+	background: #fff;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+.error-dialog >.message {
+	color: #8e8e93;
+	margin: 20px;
+	font-weight: 400;
+}
+
+/*
+ * Because of fact that the user is being allow to click and drag accross
+ * the screen. A number of default browser behaviours run the risk of hampering
+ * the User Experience. We dissallow users from selecting/dragging images in the page,
+ * and flat out reject pointer events on User Agents that support the capability. 
+ */
+img {
+	user-select: none !important;
+	-webkit-user-drag: none !important;
+	pointer-events: none;
+	position: relative;
+	display: block;
+}
+
+img:before {
+	content: '';
+	width: 100%;
+	height: 100%;
+	background-color: inherit;
+	display: block;
+	position: absolute;
+}
+
+img:after {
+	display: block;
+	position: relative;
+}
+
+/*
+ * Screen reader class which hides the element's contents visually, but keeps them speakable
+ * to VIPs. Useful for adding hidden full stops on cards text.
+ */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	border: 0;
+}
+
+@custom-media(--mq-small) {
+	.card {
+		width: 450px;
+		margin-top: 5em;
+	}
+}
+
+/*
+ * .footer-link
+ * Typically the 'Terms & Conditions' link
+ * this is rendered at the bottom of the #app container.
+ * Note: Right now it's position is quite dependent on the height of
+ * #app, as bottom: 0 will be the bottom side of #app's height.
+ */
+.footerLink {
+	user-select: none;
+	-webkit-user-highlight: none;
+	-webkit-user-drag: none;
+	-webkit-user-drag: none;
+	position: absolute;
+	margin: 0 auto;
+	text-align: center;
+	bottom: 1.25em;
+	width: 100%;
+	color: #8E8E93;
+	text-decoration: none;
+
+	/*@media (var(mq-small)) {
+		bottom: 80px;
+		font-size: 18px;
+	}
+
+	@media var((mq-iphone4)) {
+		bottom: 6px;
+		font-size: 14px;
+	}*/
+}
+
+
+.footerLink >.link {
+	color: #8E8E93;
+	text-decoration: none;
+	background: none;
+	outline: none;
+	box-shadow: none;
+	border: none;
+	font-size: 1.25em;
+}
+
+.footerLink >.link:hover {
+	text-decoration: underline;
+}
+
+.arrow-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+/**
+ *
+ */
+.empty-msg {
+	position: absolute;
+	left: 0; right: 0;
+	margin-top: 30%;
+	font-size: 22px;
+	color: #b5b5b5;
+	text-align: center;
+	animation: scaleIn 0.3s 0.3s ease-out both;
+}
+
+/*///////////////////////////////////
+/// Animations
+///////////////////////////////////*/
+
+/*
+ * scaleIn
+ * Fade from invisible and scale the element
+ * up from 70% it's original size.
+ * @usage `animation: scaleIn 0.3s 0.3s ease-out both;`
+ */
+@keyframes scaleIn {
+	0% {
+		transform: scale(0.7);
+		opacity: 0;
+	}
+}
+
+/**
+ * fadeIn
+ * Fade from invisible
+ * @usage animation: fadeIn 0.3s;
+ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/*
+ *	Rotate the element about it's center 360deg
+ *	Used for the loading spinner in the connect view.
+ */
+@keyframes rotating {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+.textContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  cursor: default;
+  color: black;
+}
+
+.rotate {
+	will-change: transform;
+	transform: translate3d(0,0,0);
+	transform-origin: 50% 50%;
+	animation: rotating 1.3s linear infinite;
+}
+
+@keyframes rotating {
+	from {
+		transform: rotate3d(0, 0, 1, 0deg);
+	}
+	to {
+		transform: rotate3d(0, 0, 1, 360deg);
+	}
+}

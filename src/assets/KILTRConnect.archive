@@ -1,0 +1,300 @@
+import React, { Component } from 'react';
+//import ConnectStrip from './cards/ConnectStrip';
+//import Button from './Button';
+import $ from 'jquery';
+
+class KILTRConnect extends Component {
+
+	spinner() {
+		return `<svg width='58px' height='58px' xmlns="http://www.w3.org/2000/svg" 
+					viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-ring">
+					<rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect>
+					<defs>
+						<filter id="uil-ring-shadow" x="-100%" y="-100%" width="300%" height="300%">
+							<feOffset result="offOut" in="SourceGraphic" dx="0" dy="0"></feOffset>
+							<feGaussianBlur result="blurOut" in="offOut" stdDeviation="0"></feGaussianBlur>
+							<feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+						</filter>
+					</defs>
+					<path d="M10,50c0,0,0,0.5,0.1,1.4c0,0.5,0.1,1,0.2,1.7c0,0.3,0.1,0.7,0.1,1.1c0.1,0.4,0.1,0.8,0.2,1.2c0.2,0.8,0.3,1.8,0.5,2.8 c0.3,1,0.6,2.1,0.9,3.2c0.3,1.1,0.9,2.3,1.4,3.5c0.5,1.2,1.2,2.4,1.8,3.7c0.3,0.6,0.8,1.2,1.2,1.9c0.4,0.6,0.8,1.3,1.3,1.9 c1,1.2,1.9,2.6,3.1,3.7c2.2,2.5,5,4.7,7.9,6.7c3,2,6.5,3.4,10.1,4.6c3.6,1.1,7.5,1.5,11.2,1.6c4-0.1,7.7-0.6,11.3-1.6 c3.6-1.2,7-2.6,10-4.6c3-2,5.8-4.2,7.9-6.7c1.2-1.2,2.1-2.5,3.1-3.7c0.5-0.6,0.9-1.3,1.3-1.9c0.4-0.6,0.8-1.3,1.2-1.9 c0.6-1.3,1.3-2.5,1.8-3.7c0.5-1.2,1-2.4,1.4-3.5c0.3-1.1,0.6-2.2,0.9-3.2c0.2-1,0.4-1.9,0.5-2.8c0.1-0.4,0.1-0.8,0.2-1.2 c0-0.4,0.1-0.7,0.1-1.1c0.1-0.7,0.1-1.2,0.2-1.7C90,50.5,90,50,90,50s0,0.5,0,1.4c0,0.5,0,1,0,1.7c0,0.3,0,0.7,0,1.1 c0,0.4-0.1,0.8-0.1,1.2c-0.1,0.9-0.2,1.8-0.4,2.8c-0.2,1-0.5,2.1-0.7,3.3c-0.3,1.2-0.8,2.4-1.2,3.7c-0.2,0.7-0.5,1.3-0.8,1.9 c-0.3,0.7-0.6,1.3-0.9,2c-0.3,0.7-0.7,1.3-1.1,2c-0.4,0.7-0.7,1.4-1.2,2c-1,1.3-1.9,2.7-3.1,4c-2.2,2.7-5,5-8.1,7.1 c-0.8,0.5-1.6,1-2.4,1.5c-0.8,0.5-1.7,0.9-2.6,1.3L66,87.7l-1.4,0.5c-0.9,0.3-1.8,0.7-2.8,1c-3.8,1.1-7.9,1.7-11.8,1.8L47,90.8 c-1,0-2-0.2-3-0.3l-1.5-0.2l-0.7-0.1L41.1,90c-1-0.3-1.9-0.5-2.9-0.7c-0.9-0.3-1.9-0.7-2.8-1L34,87.7l-1.3-0.6 c-0.9-0.4-1.8-0.8-2.6-1.3c-0.8-0.5-1.6-1-2.4-1.5c-3.1-2.1-5.9-4.5-8.1-7.1c-1.2-1.2-2.1-2.7-3.1-4c-0.5-0.6-0.8-1.4-1.2-2 c-0.4-0.7-0.8-1.3-1.1-2c-0.3-0.7-0.6-1.3-0.9-2c-0.3-0.7-0.6-1.3-0.8-1.9c-0.4-1.3-0.9-2.5-1.2-3.7c-0.3-1.2-0.5-2.3-0.7-3.3 c-0.2-1-0.3-2-0.4-2.8c-0.1-0.4-0.1-0.8-0.1-1.2c0-0.4,0-0.7,0-1.1c0-0.7,0-1.2,0-1.7C10,50.5,10,50,10,50z" fill="#9d9d9d" filter="url(#uil-ring-shadow)">
+				</path>`;
+	}
+
+	mountSpinner() {
+
+		$.fn.drawKiltrLogo = function(data, options) {
+			var $this = this,
+				W = 100;
+			var H = W,
+				centerX = W/2,
+				centerY = H/2,
+				cos = Math.cos,
+				sin = Math.sin,
+				PI = Math.PI,
+				settings = $.extend({
+					segmentShowStroke : true,
+					segmentStrokeColor : "#0C1013",
+					segmentStrokeWidth : 0,
+					baseColor: "#fff",
+					baseOffset: 4,
+					edgeOffset : 10,//offset from edge of $this
+					percentageInnerCutout : 75,
+					animation : true,
+					animationSteps : 50,
+					animationEasing : 'linear',
+					animateRotate : true,
+					tipOffsetX: -8,
+					tipOffsetY: -45,
+					tipClass: 'doughnutTip',
+					summaryClass: 'textContainer',
+					beforeDraw: function() {  },
+					afterDraw : function() { 
+						// SVG doesn't behave like HTML DOM, so rewrite the entire "class" attribute
+						$('.ring').attr('class', 'ring rotate');
+						//console.log('done!');
+					},
+					onPathEnter : function() {  },
+					onPathLeave : function() {  }
+				}, options),
+				// back to variable Declarations
+				animationOptions = {
+					linear : function (t) {
+						return t;
+					},
+					easeInOutExpo: function (t) {
+						var v = t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t;
+						return (v>1) ? 1 : v;
+					}
+				},
+				requestAnimFrame = function() {
+				return window.requestAnimationFrame ||
+					window.webkitRequestAnimationFrame ||
+					window.mozRequestAnimationFrame ||
+					window.oRequestAnimationFrame ||
+					window.msRequestAnimationFrame ||
+					function(callback) {
+						window.setTimeout(callback, 1000 / 60);
+					};
+				}();
+			settings.beforeDraw.call($this);
+
+			var $svg = $('<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>').appendTo($this),
+				$paths = [],
+				easingFunction = animationOptions[settings.animationEasing],
+				doughnutRadius = Min([H / 2,W / 2]) - settings.edgeOffset,
+				cutoutRadius = doughnutRadius * (settings.percentageInnerCutout / 100),
+				segmentTotal = 0;
+
+			//Draw base doughnut
+			var baseDoughnutRadius = doughnutRadius + settings.baseOffset,
+				baseCutoutRadius = cutoutRadius - settings.baseOffset;
+			$(document.createElementNS('http://www.w3.org/2000/svg', 'path'))
+				.attr({
+				"d": getHollowCirclePath(baseDoughnutRadius, baseCutoutRadius),
+				"fill": settings.baseColor,
+				"fill-opacity": "0",
+			})
+			.appendTo($svg);
+
+			//Set up pie segments wrapper
+			var $pathGroup = $(document.createElementNS('http://www.w3.org/2000/svg', 'g'));
+			$pathGroup.attr({opacity: 0}).attr({class: 'ring'}).appendTo($svg);
+
+			//Set up center text area
+			var summarySize = (cutoutRadius - (doughnutRadius - cutoutRadius)) * 2,
+				$summary = $('<div class="' + settings.summaryClass + '" />')
+					.appendTo($this)
+					.css({ 
+						"width": (summarySize) + "px",
+						"height": (summarySize) + "px",
+						"margin-left": -(summarySize / 2) + "px",
+						"margin-top": -(summarySize / 3) + "px"
+					});
+
+			var $kiltrText = $('#kiltrText').appendTo($summary).css({opacity: 0})
+				.attr("width", (summarySize * 0.8) + "px")
+				.attr("height", (summarySize / 2) + "px");
+
+			for (var i = 0, len = data.length; i < len; i++) {
+				segmentTotal += data[i].value;
+				$paths[i] = $(document.createElementNS('http://www.w3.org/2000/svg', 'path'))
+				.attr({
+					"stroke-width": settings.segmentStrokeWidth,
+					"stroke": settings.segmentStrokeColor,
+					"fill": data[i].color,
+					"data-order": i
+				})
+				.appendTo($pathGroup);
+			}
+
+			// Animation start
+			animationLoop(drawPieSegments);
+
+			//Functions
+			function getHollowCirclePath(doughnutRadius, cutoutRadius) {
+				// Calculate values for the path.
+				// We needn't calculate startRadius, segmentAngle and endRadius, because base doughnut doesn't animate.
+				var startRadius = -1.570,// -Math.PI/2
+					//segmentAngle = 6.2831,// 1 * ((99.9999/100) * (PI*2)),
+					endRadius = 4.7131,// startRadius + segmentAngle
+					startX = centerX + cos(startRadius) * doughnutRadius,
+					startY = centerY + sin(startRadius) * doughnutRadius,
+					endX2 = centerX + cos(startRadius) * cutoutRadius,
+					endY2 = centerY + sin(startRadius) * cutoutRadius,
+					endX = centerX + cos(endRadius) * doughnutRadius,
+					endY = centerY + sin(endRadius) * doughnutRadius,
+					startX2 = centerX + cos(endRadius) * cutoutRadius,
+					startY2 = centerY + sin(endRadius) * cutoutRadius;
+				var cmd = [
+					'M', startX, startY,
+					'A', doughnutRadius, doughnutRadius, 0, 1, 1, endX, endY,//Draw outer circle
+					'Z',//Close path
+					'M', startX2, startY2,//Move pointer
+					'A', cutoutRadius, cutoutRadius, 0, 1, 0, endX2, endY2,//Draw inner circle
+					'Z'
+				];
+				cmd = cmd.join(' ');
+				return cmd;
+			}
+
+			function drawPieSegments (animationDecimal) {
+				var startRadius = -PI / 2,//-90 degree
+					rotateAnimation = 1;
+				
+				if (settings.animation && settings.animateRotate) {
+					rotateAnimation = animationDecimal;//count up between0~1
+				}
+
+				drawDoughnutText(animationDecimal, segmentTotal);
+
+				$pathGroup.attr("opacity", animationDecimal);
+
+				//If data has only one value, we draw hollow circle(#1).
+				if (data.length === 1 && (4.7122 < (rotateAnimation * ((data[0].value / segmentTotal) * (PI * 2)) + startRadius))) {
+					$paths[0].attr("d", getHollowCirclePath(doughnutRadius, cutoutRadius));
+					return;
+				}
+				for (var i = 0, len = data.length; i < len; i++) {
+					var segmentAngle = rotateAnimation * ((data[i].value / segmentTotal) * (PI * 2)),
+						endRadius = startRadius + segmentAngle,
+						largeArc = ((endRadius - startRadius) % (PI * 2)) > PI ? 1 : 0,
+						startX = centerX + cos(startRadius) * doughnutRadius,
+						startY = centerY + sin(startRadius) * doughnutRadius,
+						endX2 = centerX + cos(startRadius) * cutoutRadius,
+						endY2 = centerY + sin(startRadius) * cutoutRadius,
+						endX = centerX + cos(endRadius) * doughnutRadius,
+						endY = centerY + sin(endRadius) * doughnutRadius,
+						startX2 = centerX + cos(endRadius) * cutoutRadius,
+						startY2 = centerY + sin(endRadius) * cutoutRadius;
+					
+					var cmd = [
+						'M', startX, startY,// Move pointer
+						'A', doughnutRadius, doughnutRadius, 0, largeArc, 1, endX, endY,// Draw outer arc path
+						'L', startX2, startY2,// Draw line path(this line connects outer and innner arc paths)
+						'A', cutoutRadius, cutoutRadius, 0, largeArc, 0, endX2, endY2,//Draw inner arc path
+						'Z'//Cloth path
+					];
+
+					$paths[i].attr("d", cmd.join(' '));
+					startRadius += segmentAngle;
+				}
+			}
+			
+			/*
+			 * TODO: Documentation pls - KW
+			*/
+			function drawDoughnutText(animationDecimal) {
+				$kiltrText.css({opacity: animationDecimal})
+			}
+
+			function animateFrame(cnt, drawData) {
+				var easeAdjustedAnimationPercent =(settings.animation)? CapValue(easingFunction(cnt), null, 0) : 1;
+				drawData(easeAdjustedAnimationPercent);
+			}
+
+			function animationLoop(drawData) {
+				var animFrameAmount = (settings.animation)? 1 / CapValue(settings.animationSteps, Number.MAX_VALUE, 1) : 1,
+					cnt =(settings.animation)? 0 : 1;
+					requestAnimFrame(function() {
+						cnt += animFrameAmount;
+					animateFrame(cnt, drawData);
+					if (cnt <= 1) {
+						requestAnimFrame(arguments.callee);
+					} else {
+						settings.afterDraw.call($this);
+					}
+				});
+			}
+			
+			/*function Max(arr) {
+				return Math.max.apply(null, arr);
+			}*/
+
+			function Min(arr) {
+				return Math.min.apply(null, arr);
+			}
+
+			function isNumber(n) {
+				return !isNaN(parseFloat(n)) && isFinite(n);
+			}
+
+			function CapValue(valueToCap, maxValue, minValue) {
+				if (isNumber(maxValue) && valueToCap > maxValue) {
+					return maxValue;
+				}
+
+				if (isNumber(minValue) && valueToCap < minValue) {
+					return minValue;
+				}
+				return valueToCap;
+			}
+			return $this;
+		};
+
+		$(".kiltrRadialLogo").drawKiltrLogo([
+			/*TODO pre-calculate the value */
+			{ value : 90,				color: "#060808" },
+			{ value : 39.375, 	color: "#959594" },
+			{ value : 5.625, 	color: "#6abc45" },
+			{ value : 45, 	  color: "#67338f" },
+			{ value : 56.25,		color: "rgba(255,255,255,0)" }, // blank
+			{ value:  28.125,		color: "#9e1c3d" },
+			{ value:  5.625,		color: "#eb2226" },
+			{ value : 22.5,			color: "#0773b8" },
+			{ value : 5.625,		color: "#f29ac0" },
+			{ value : 16.875,   color: "#14a74f" },
+			{ value : 16.875,		color: "#8580bd" },
+			{ value : 11.25, 		color: "#73ccf0" },
+			{ value : 5.625, 	color: "#060808" },
+			{ value : 11.25, 	color: "#f1e919" },
+		]);
+	}
+
+	componentDidMount() {
+		this.mountSpinner();
+	}
+
+	render() {
+		return (
+			<div className="connect">
+				<div  className="kiltrRadialLogo">
+					<svg id="kiltrText" style={{'opacity': 0}} version="1.1" x="0px" y="0px"
+						width="191.532px" height="100px" viewBox="0 0 191.532 100" enableBackground="new 0 0 191.532 100">
+						<path fill="#000000" d="M69.065,0l2.152,6.627h6.966l-5.64,4.094l2.152,6.619l-5.631-4.094l-5.63,4.094l2.151-6.619l-5.631-4.094
+							h6.959L69.065,0z M0,20.443V100h13.22V20.443H0z M40.328,20.662h-12.78L13.439,61.219L26.448,100h13.221L25.78,61.659
+							L40.328,20.662z M63.509,20.443H50.279V100h13.229V20.443z M101.071,73.451V86.67h-13.22V20.443H74.623V100h39.678V73.451H101.071z
+							M101.071,45.345h13.229V33.782h13.22V100h13.229V20.443h-39.678V45.345z M178.312,66.84h6.61c1.84,0,3.396-0.649,4.688-1.932
+							c1.282-1.29,1.923-2.847,1.923-4.688V27.053c0-1.831-0.641-3.396-1.923-4.678c-1.291-1.291-2.848-1.932-4.688-1.932h-33.059V100
+							h13.221V66.84L178.312,100h13.221L178.312,66.84z M178.312,53.611h-13.228V33.782h13.228V53.611z" />
+					</svg>
+				</div>
+				<div className="container">
+					<h1 className="header">{ `You're all set...` }<br />
+					Connecting to KILTR WiFi</h1>
+				</div>
+			</div>
+		);
+	}
+}
+
+export default KILTRConnect;
