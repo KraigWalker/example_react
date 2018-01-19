@@ -1,3 +1,21 @@
+.modal, .platformSelectFrame, .overlay {
+	z-index: 6000;
+	background: #fff;
+	top: 0;
+	left: 0;
+}
+
+.platformSelectFrame {
+	position: relative;
+}
+
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	top: 0;
+}
+
 .switchButton {
 	height: 180px;
 }
@@ -13,4 +31,11 @@
 
 .switchButtonContainer > .switchButton {
 	margin: 20px;
+}
+
+.contentWrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
 }

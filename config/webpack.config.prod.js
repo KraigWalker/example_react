@@ -1,6 +1,7 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -54,7 +55,8 @@ module.exports = {
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
-  devtool: shouldUseSourceMap ? 'source-map' : false,
+  /* modification: was `source-map` */
+  devtool: shouldUseSourceMap ? 'cheap-source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
@@ -90,7 +92,8 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
+      "react": "preact-compat",
+      "react-dom": "preact-compat",
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -147,11 +150,15 @@ module.exports = {
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
-            options: {
-              
-              compact: true,
-            },
+            use: [
+              {
+                loader: require.resolve('babel-loader'),
+                options: {
+                  compact: true,
+                  cacheDirectory: true,
+                },
+              }
+            ]
           },
           // The notation here is somewhat confusing.
           // "postcss" loader applies autoprefixer to our CSS.
@@ -235,6 +242,10 @@ module.exports = {
     ],
   },
   plugins: [
+    // provide an intermediate caching step for modules. In order to see results,
+    // you'll need to run webpack twice with this plugin: the first build will
+    // take the normal amount of time. The second build will be signficantly faster.
+    new HardSourceWebpackPlugin(),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -283,6 +294,7 @@ module.exports = {
         ascii_only: true,
       },
       sourceMap: shouldUseSourceMap,
+      cache: true
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
