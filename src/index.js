@@ -310,12 +310,15 @@ const campaignObject = JSON.parse(document.getElementById('data').text),
 
 export { Wrapper };
 
-ReactDOM.render(
-	<Wrapper 
-		campaignObject={JSON.parse(document.getElementById('data').text)}
-		cssBundlePrefix={cssBundlePrefix}
-		jsModulePrefix={jsModulePrefix} 
-		gaTrackingID={campaign.hasOwnProperty('gaProperty') === true ? campaign.gaProperty : 'UA-4114951-10'} 
-		options={{debug: false}}
-	/>, 
-document.getElementById('root'));
+const render = Component => {
+	ReactDOM.render(
+		<Wrapper 
+			campaignObject={JSON.parse(document.getElementById('data').text)}
+			cssBundlePrefix={cssBundlePrefix}
+			jsModulePrefix={jsModulePrefix} 
+			gaTrackingID={campaign.hasOwnProperty('gaProperty') === true ? campaign.gaProperty : 'UA-4114951-10'} 
+			options={{debug: false}}
+		/>, 
+	document.getElementById('root'));
+}
+render(Wrapper);
