@@ -1,36 +1,104 @@
 .modal, .platformSelectFrame, .overlay {
-	z-index: 6000;
-	background: #fff;
+	width: 100%;
 	top: 0;
 	left: 0;
+	outline: none;
+	height: 100%;
 }
-
-.platformSelectFrame {
-	position: relative;
-}
-
 
 .overlay {
 	position: absolute;
-	width: 100%;
-	top: 0;
+	min-height: 100%;
+	background: #efefef;
+	z-index: 6000;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
+
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-height: 100%;
+}
+
+.platformSelectFrame {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	outline: none;
+}
+
+.titleContainer {
+	width: 100%;
+	position: relative;
+}
+
+.footer {
+	width: 100%;
+	display: block;
+}
+
+.platformSelectLegal ,.title {
+	width: 100%;
+	color: #757575;	
+	text-align: center;
+}
+
+.platformSelectLegal {
+	padding: 30px;
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+.title {
+	font-size: 18px;
+	font-weight: 400;
+}
+
 
 .switchButton {
-	height: 180px;
+	min-height: 240px;
+	min-width: 240px;
+	max-height: 240px;
+	max-width: 240px;
 }
 
+@media(max-width: 570px) {
+	.switchButton {
+		min-height: 180px;
+		min-width: 180px;
+		max-height: 180px;
+		max-width: 180px;
+	}
+}
+
+@media(max-width: 443px) {
+	.switchButton {
+		min-height: 240px;
+		min-width: 240px;
+		max-height: 240px;
+		max-width: 240px;
+	}
+}
+
+@media(max-width: 310px) {
+	.switchButton {
+		min-height: 180px;
+		min-width: 180px;
+		max-height: 180px;
+		max-width: 180px;
+	}
+}
 .switchButtonContainer {
 	display: inline-flex;
 	margin: 0 auto;
-	max-width: 960px;
+	max-width: 600px;
 	height: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-}
-
-.switchButtonContainer > .switchButton {
-	margin: 20px;
+	justify-content: center;
 }
 
 .contentWrapper {
@@ -38,4 +106,53 @@
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: center;
+}
+
+.buttonContainer {
+	position: relative;
+	width: 100%;
+	height: 38px;
+}
+
+.closeButton {
+	position: absolute;
+	padding: 4px;
+	top: 0px;
+	right: 10px;
+	display: block;
+	text-transform: uppercase;
+	font-size: 38px;
+	border-radius: 500px;
+	line-height: 1;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	outline: none;
+	user-select: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: #4b4b4b;
+}
+
+.closeButton:hover {
+	color: #757575;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	60% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
 }

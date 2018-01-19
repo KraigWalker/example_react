@@ -8,49 +8,43 @@ const getCdnFolder = () => '/Images/BrandedSplash/';
  * Introductory Card that's displayed at the top of a Deck
  * 
  */
-class BrandedSplash extends React.Component {
-	
+class BrandedSplash extends React.Component { 
+
 	constructor() {
 		super();
+		this.chooseDefaultLogo = this.chooseDefaultLogo.bind(this);
 		this.state = {
 			logo: null
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return this.state.logo !== nextState.logo;
+	shouldComponentUpdate() {
+		return false;
 	}
 
-	componentDidMount() {
-		this.chooseDefaultLogo(this.props.isCollectivWorks)
-	}
-
-	/**
-	 * 
-	 * @todo Refacor out into an import() instead
-	 * @deprecated
-	 * @param {*} isCollectivWorks 
-	 */
-	chooseDefaultLogo(isCollectivWorks) {
-		if (isCollectivWorks === true) {
-			import('./cwLogo.js').then((module) => {this.setState({logo: module.Logo})});
+	chooseDefaultLogo() {
+		if(this.props.isCollectivWorks === true) {
+			import('./cwLogo.js')
+				.then(module => this.setState({logo: module.Logo}))
+				.catch(error => console.log(error));
 		} else {
-			import('./cityverveLogo.js').then((module) => {this.setState({logo: module.Logo})});
+			import('./cityverveLogo.js')
+				.then(module => this.setState({logo: module.Logo}))
+				.catch(error => console.log(error));
 		}
 	}
 
 	render() { 
 		const props = this.props;
-		const Logo = this.state.logo;
+		const Logo = this.state.Logo;
 		return(
 			<div className={s.brandedSplash} style={{'background': (props.clearColor ? props.clearColor : '#000')}}>
 				<div className={s.container}>
 					<div className={s.content}>
-						<p className={`${s.action} ${props.textColor === "Dark" ?  s.dark : ''}`}>{props.action}</p>
+						<p className={`${s.action} ${props.textColor === "Dark" ? s.dark : ''}`}>{props.action}</p>
 						<div className={s.hero}>
-							{(props.logo.url && props.logo.url.length !== 0) 
-							? <img className={`${s.logo} ${s.custom}`} src={props.logo.url} alt="" /> 
-							: (this.state.logo !== null && <Logo />)}
+							{(props.logo.url && props.logo.url.length !== 0) ? <img className={`${s.logo} ${s.custom}`} src={props.logo.url} alt="" /> 
+							: <Logo />}
 							<h1 className={`${s.intro} ${props.textColor === "Dark" ? s.dark : ''}`}>{props.intro}</h1>
 							<p className={s.vanity}>{ 'Powered by CollectivWorks®' }</p>
 						</div>

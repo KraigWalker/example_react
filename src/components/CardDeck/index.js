@@ -171,7 +171,6 @@ class CardDeck extends Component {
 		}
 	}
 
-
 	/**
 	 * Display the success Screen and redirect the user to the provided url (normally the grant URL) 
 	 * @param  {[type]} url The url to navigate the user to

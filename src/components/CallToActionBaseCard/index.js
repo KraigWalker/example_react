@@ -1,26 +1,28 @@
 import React from 'react';
 import s from './styles.css';
-import {OverlayMenu} from '../OverlayMenu'; 
+import {OverlayMenu} from '../OverlayMenu';
+import {AmazonBadge} from '../AmazonBadge/';
+import appStoreBadge from '../OverlayMenu/img/appstore.svg';
+import googlePlayBadge from '../OverlayMenu/img/GooglePlay.svg';
+import msftBadge from '../OverlayMenu/img/English_get it from MS_864X312.svg';
 
 class CallToActionBase extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.getButtonLink = this.getButtonLink.bind(this);
+		this.setButtonUrlProp = this.setButtonUrlProp.bind(this);
 		this.openPlatformSelectModal = this.openPlatformSelectModal.bind(this);
+		this.buildOverlayMenuOptions = this.buildOverlayMenuOptions.bind(this);
+		this.closePlatformSelectModal = this.closePlatformSelectModal.bind(this);
 		this.state = {
 			buttonLink: this.getButtonLink(),
 			useModal: true,
-			modalIsOpen: true, //false,
-			imgWidth: '100%',
-			imgHeight: '100%'
+			modalIsOpen: false
 		};
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		if (this.state.imgWidth !== nextState.imgWidth || this.state.imgHeight !== nextState.imgHeight ) {
-			return true
-		}
 		if (this.state.modalIsOpen !== nextState.modalIsOpen) {
 			return true;
 		}
@@ -54,11 +56,12 @@ class CallToActionBase extends React.Component {
 		 * to manually override the platform setting for testing.
 		 */
 		  return 0;
-
 	}
 
 	setButtonUrlProp(label) {
-		if (this.props.hasOwnProperty(label)) {
+		if (this.props.button.urls.hasOwnProperty(label)) {
+			console.log('fetching url for ' + label);
+			console.log('url: ' + this.props.button.urls[label]);
 			return this.props.button.urls[label] 
 		} else { 
 			return '';
@@ -72,20 +75,22 @@ class CallToActionBase extends React.Component {
 	 * @memberof CallToActionBase
 	 */
 	getButtonLink() {
-		switch(this.props.linkType) {
+		console.log(this.props.button.linkType);
+		switch(this.props.button.linkType) {
 			case 0: {
 				switch(this.detectUserAgent()) {
 					case 1: {
 						return this.setButtonUrlProp('windows');
 					}
 					case 2: {
-						return this.setButtonUrlProp('android'); 
+						return this.setButtonUrlProp('android');
 					}
 					case 3: {
+						console.log('lucky no. 3');
 						return this.setButtonUrlProp('ios');
 					}
 					case 4: {
-						return this.setButtonUrlProp('amazon'); 
+						return this.setButtonUrlProp('amazon');
 					}
 					case 0:
 					default: {
@@ -93,7 +98,7 @@ class CallToActionBase extends React.Component {
 						/**
 						 * @todo display a modal asking the user to select from all platforms provided.
 						 */
-						return this.setButtonUrlProp('web');
+						return false; //this.setButtonUrlProp('web');
 					}
 				}
 			}
@@ -102,6 +107,54 @@ class CallToActionBase extends React.Component {
 				return this.props.button.urls.web;
 			}
 		}
+	}
+
+	buildOverlayMenuOptions() {
+		const types = ['amazon', 'android', 'ios', 'windows'];
+		const urls = this.props.button.urls;
+		const availableTypes = types.filter(type => urls[type] !== null 
+			&& urls[type].length !== 0);
+
+		return availableTypes.map(item => {
+			switch(item) {
+				case 'amazon': {
+					return {		
+						title: "Amazon Appstore",
+						id: "AmazonBtn",
+						href: this.props.button.urls['amazon'],
+						useChildren: true,
+						children: <AmazonBadge />
+					};
+				}
+				case 'android': {
+					return {
+						title: "Google Play",
+						id: "AndroidBtn",
+						src: googlePlayBadge,
+						href: this.props.button.urls['android'],
+					};
+				}
+				case 'ios': {
+					return {
+						title: "iOS",
+						id: "iOSBtn",
+						src: appStoreBadge,
+						href: this.props.button.urls['ios'],
+					};
+				}
+				case 'windows': {
+					return {
+						title: "Microsoft Store",
+						id: "WindowsBtn",
+						src: msftBadge,
+						href: this.props.button.urls['windows'],
+					};
+				}
+				default: {
+					return {};
+				}
+			}
+		});
 	}
 
 	buildSrcUrl() {
@@ -116,6 +169,10 @@ class CallToActionBase extends React.Component {
 		this.setState({modalIsOpen: true});
 	}
 
+	closePlatformSelectModal() {
+		this.setState({modalIsOpen: false});
+	}
+
 	render() {
 		return (
 			<div className={s.callToAction}>
@@ -125,19 +182,27 @@ class CallToActionBase extends React.Component {
 							{this.props.title && <h1 className={`${s.title} ${this.props.title.colour === 0 ? s.dark : s.light }`}>{this.props.title.text}</h1>}
 						</div>
 						<div className={s.buttonContainer}>
-							{this.props.button.linkType === 1 ? 
+							{this.props.button.linkType === 1 ? 	//web link
 							<a 
 								className={`${s.button} ${this.props.button.colour === 0 ? s.buttonDark : s.buttonLight}`} 
 								href={this.state.buttonLink} 
 								rel="nofollow noopener"
 							>
 								{this.props.button.text}
-							</a> :
-							<button 
-								className={`${s.button} ${'-' + this.props.button.colour === 0 ? s.buttonDark : s.buttonLight}`} 
-								onClick={this.openPlatformSelectModal}
-							>{this.props.button.text}</button>
-							}
+							</a> 		
+							: (this.state.buttonLink !== false)
+								? <a 
+									className={`${s.button} ${this.props.button.colour === 0 ? s.buttonDark : s.buttonLight}`} 
+									href={this.state.buttonLink} 
+									rel="nofollow noopener"
+								>
+									{this.props.button.text}
+								</a> 
+								: <button 
+									className={`${s.button} ${'-' + this.props.button.colour === 0 ? s.buttonDark : s.buttonLight}`} 
+									onClick={this.openPlatformSelectModal} 
+									onTouchEnd={this.openPlatformSelectModal}
+								>{this.props.button.text}</button>}
 						</div>
 					</div>
 					{this.props.images && this.props.images.length > 0 ?
@@ -152,7 +217,16 @@ class CallToActionBase extends React.Component {
 						/>
 					</figure>: null}
 				</div>
-				<OverlayMenu modalIsOpen={this.state.modalIsOpen} />
+				{this.props.linkType !== 1 && 
+					<OverlayMenu 
+						modalIsOpen={this.state.modalIsOpen} 
+						onClickHandler={this.closePlatformSelectModal}
+						buttonInnerSizing="180px"
+						title="Select a Platform"
+						requireLegalFooter={true}
+						options={this.buildOverlayMenuOptions()} 
+					/>
+				}
 			</div>
 		);
 	}

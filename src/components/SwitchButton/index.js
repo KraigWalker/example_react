@@ -12,8 +12,8 @@ class SwitchButton extends Component {
 
 	render() {
 		return(
-			<figure className={s.switchButton}>
-				<a className={s.button} href={this.props.href} aria-labelledby={this.props.id + 'Label'}>
+			<figure role="link" className={s.switchButton}>
+				<a className={`${s.button} ${this.props.className}`} href={this.props.href} aria-labelledby={this.props.id + 'Label'}>
 					{this.props.src ?
 					<img className={s.image} 
 						src={this.props.src} 

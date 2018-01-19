@@ -50,9 +50,11 @@ class Card extends Component {
 		this.element.addEventListener('touchcancel', this.onTouchEnd, {passive: false});
 		this.element.addEventListener('touchend', this.onTouchEnd, {passive: false});
 
-		import(/* webpackChunkName: './cards/[request]' */`../${this.props.type}Card/index.js`).then(module => {
-			this.setState({ CardView: module.default });
-		});
+		import(/* webpackChunkName: './cards/[request]' */`../${this.props.type}Card/index.js`)
+			.then(module => {
+				this.setState({ CardView: module.default });
+			})
+			.catch(error => { console.error(error)});
 	}
 
 	componentWillUnmount() {

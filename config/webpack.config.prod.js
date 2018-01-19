@@ -1,7 +1,6 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -56,7 +55,7 @@ module.exports = {
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   /* modification: was `source-map` */
-  devtool: shouldUseSourceMap ? 'cheap-source-map' : false,
+  devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
@@ -65,8 +64,13 @@ module.exports = {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
+    /** 
+     * note:
+     * Because CW is using .Net to serve assets, we make some less than stellar
+     * changes to accomodate it's bundling system. We remove [chunkhash:8] from trh
+     */
     filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    chunkFilename: 'static/js/[name].chunk.[chunkhash:8].js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -92,8 +96,8 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      "react": "preact-compat",
-      "react-dom": "preact-compat",
+    //  "react": "preact-compat",
+     // "react-dom": "preact-compat",
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -245,7 +249,7 @@ module.exports = {
     // provide an intermediate caching step for modules. In order to see results,
     // you'll need to run webpack twice with this plugin: the first build will
     // take the normal amount of time. The second build will be signficantly faster.
-    new HardSourceWebpackPlugin(),
+  //  new HardSourceWebpackPlugin(),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -294,7 +298,7 @@ module.exports = {
         ascii_only: true,
       },
       sourceMap: shouldUseSourceMap,
-      cache: true
+      cache: false
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({

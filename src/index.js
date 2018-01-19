@@ -132,6 +132,26 @@ class Wrapper extends React.Component {
 
 			switch(object.Type) {
 				case 'CallToActionCard': {
+
+					let urlObj = {};
+
+					if(object.AmazonUrl !== null) {
+						urlObj['amazon'] = object.AmazonUrl;
+					}
+					if(object.AndroidUrl !== null) {
+						urlObj['android'] = object.AndroidUrl;
+					}
+					if(object.IosUrl !== null) {
+						urlObj['ios'] = object.IosUrl;
+					}
+					if(object.WebUrl !== null) {
+						urlObj['web'] = object.WebUrl;
+					}
+					if(object.WindowsUrl !== null) {
+						urlObj['windows'] = object.WindowsUrl;
+					}
+
+
 					const obj = {
 						type: 'CallToActionBase',
 						content: {
