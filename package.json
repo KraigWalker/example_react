@@ -28,6 +28,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "memoize-one": "^3.0.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
@@ -99,14 +100,14 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.3.10",
+    "@storybook/addon-links": "^3.3.10",
+    "@storybook/addons": "^3.3.10",
+    "@storybook/react": "^3.3.10",
     "cache-loader": "^1.2.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.5.0",
     "hard-source-webpack-plugin": "^0.5.16",
-    "prettier": "^1.10.2",
-    "@storybook/react": "^3.3.10",
-    "@storybook/addon-actions": "^3.3.10",
-    "@storybook/addon-links": "^3.3.10",
-    "@storybook/addons": "^3.3.10"
+    "prettier": "^1.10.2"
   }
 }

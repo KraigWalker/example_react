@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
 import s from './styles.css';
+import memoizeOne from 'memoize-one';
 import Motion from '../../../node_modules/react-motion/lib/Motion.js';
 import spring from '../../../node_modules/react-motion/lib/spring.js';
 
+// Future Perf improvement: Dynamic Style Properties
+// onDidMount
+// 	Create a <style> element in <head>, hold onto it's existence in state.el
+// 	prefix is a globally unique number specific to the card instance
+// 
+
+
+
+
+/**
+ * 
+ * 
+ * @class Card
+ * @extends {Component}
+ */
 class Card extends Component {
 
 	constructor (props) {
 		super(props);
+
+		this.styleElement = null;
 
 		this.state = {
 			CardView: null,
@@ -50,12 +68,41 @@ class Card extends Component {
 		this.element.addEventListener('touchcancel', this.onTouchEnd, {passive: false});
 		this.element.addEventListener('touchend', this.onTouchEnd, {passive: false});
 
+		const styleElement = document.createElement('style');
+		styleElement.type = 'text/css';
+		
+		// for easy identification
+		styleElement.setAttribute('cw-style-marshal', this.props.id);
+
+		const head = document.querySelector('head');
+
+		if (!head) {
+			throw new Error('Cannot find the head element to append a card transform style to');
+		}
+
+		// Add style tag to head
+		head.appendChild(styleElement);
+		this.styleElement = styleElement;
+		// set the initial transformstyle
+		//this.setStyle(styles.resting);
+
 		import(/* webpackChunkName: './cards/[request]' */`../${this.props.type}Card/index.js`)
 			.then(module => {
 				this.setState({ CardView: module.default });
 			})
 			.catch(error => { console.error(error)});
 	}
+
+	setStyle = memoizeOne((proposed) => {
+		if (!this.styleElement) {
+		  console.error('cannot set style of style tag if not mounted');
+		  return;
+		}
+
+		// This technique works with ie11+ so no need for a nasty fallback as seen here:
+		// https://stackoverflow.com/a/22050778/1374236
+		this.styleElement.innerHTML = proposed;
+	});
 
 	componentWillUnmount() {
 		this.element.removeEventListener('mousedown', this.onMouseDown, {passive: true});
@@ -186,6 +233,7 @@ class Card extends Component {
 	 * @memberof Card
 	 */
 	update() {
+	//	this.setStyle(this.getGlobalTransform(this.state.deltaX, this.state.deltaY));
 		this.requestPaint = false
 	}
 
@@ -259,6 +307,17 @@ class Card extends Component {
 		return {transform: `translate3d(${x}px, ${y}px, 0px)`, willChange: 'transform'};
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param {any} {x, y} 
+	 * @returns 
+	 * @memberof Card
+	 */
+	getGlobalTransform(x, y) {
+		return `[data-cw-style-marshal="${this.props.id}"]{transform: translate3d(${x}px, ${y}px, 0px)}`;
+	}
+
 	getStyle() {
 		return this.state.isPressed
 		? { x: this.state.deltaX, y: this.state.deltaY, r: 0, scale: 1}
@@ -269,28 +328,38 @@ class Card extends Component {
 		this.element = el;
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.state.CardView !== nextState.CardView || this.state.isPressed === true) {
+			return true;
+		}
+		return false;
+	}
+
 	render() {
-		const {cssBundlePrefix, jsModulePrefix, viewProps} = this.props;
+		const { viewProps } = this.props;
 		const { CardView } = this.state;
+		console.log('rendered');
 		return (
 			<Motion 
 				defaultStyle={{x: 0, y: 0, r: 0, scale: 1}}
 				style={this.getStyle()}
 			>
-				{(interpolatedStyles) => 
+				{(interpolatedStyles) => {
+					this.setStyle(this.getGlobalTransform(interpolatedStyles.x, interpolatedStyles.y));
+					return(
 					<article
 						ref={this.setRef}
 						className={s.card}
-						style={this.getTransform(interpolatedStyles)}
+						data-cw-style-marshal={this.props.id}
+						style={this.state.isPressed === true ? {} : this.getTransform(interpolatedStyles)}
 					>
 						{!CardView ? null : 
 							<CardView 
 								{...viewProps} 
-								cssBundlePrefix={cssBundlePrefix} 
-								jsModulePrefix={jsModulePrefix}
 							/>
 						}
-					</article>
+					</article>);
+					}
 				}
 			</Motion>
 		);
